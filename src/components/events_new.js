@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {Field, reduxForm } from 'redux-form';
-import { Link } from "react-router-dom";
+import { Field, reduxForm } from 'redux-form';
+import { Button, TextField, Container } from "@material-ui/core";
 
 import { postEvent } from "../actions";
 
@@ -13,10 +13,16 @@ class EventsNew extends Component {
   renderField(field) {
     const { input, label, type, meta: { touched, error } } = field;
     return (
-    <div>
-      <input {...input} placeholder={label} type={type} />
-      {touched && error && <span>{error}</span>}
-    </div>);
+      <div>
+        <TextField
+          {...input}
+          label={label}
+          type={type}
+          helperText={touched && error && <span>{error}</span>}
+          error={touched && error}
+        />
+      </div>
+    );
   }
 
   async onSubmit(values) {
@@ -26,34 +32,43 @@ class EventsNew extends Component {
 
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
-    console.log(submitting);
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <Field
-            label="Title"
-            name="title"
-            type="text"
-            component={this.renderField}
-          />
-        </div>
-        <div>
-          <Field
-            label="Body"
-            name="body"
-            type="text"
-            component={this.renderField}
-          />
-        </div>
-        <div>
-          <input
-            type="submit"
-            value="Submit"
-            disabled={ pristine || submitting || invalid }
-          />
-          <Link to="/">Cancel</Link>
-        </div>
-      </form>
+      <React.Fragment>
+        <Container maxWidth="sm">
+          <form
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit(this.onSubmit)}
+          >
+            <Field
+              type="text"
+              name="title"
+              label="Title"
+              component={this.renderField}
+            />
+            <Field
+              type="text"
+              name="body"
+              label="Body"
+              component={this.renderField}
+            />
+            <div>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={pristine || submitting || invalid}
+              >
+                送信
+              </Button>
+
+              <Button variant="contained" href="/" color="secondary">
+                キャンセル
+              </Button>
+            </div>
+          </form>
+        </Container>
+      </React.Fragment>
     );
   }
 }

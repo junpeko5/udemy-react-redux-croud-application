@@ -47,10 +47,13 @@ class EventsIndex extends Component {
             <TableBody>{this.renderEvents()}</TableBody>
           </Table>
         </TableContainer>
-        <Button variant="contained" color="primary" href="/events/new">
-          New Event
-        </Button>
-        <Fab aria-label="Add" className="" color="primary" style={style}>
+        <Fab
+          aria-label="Add"
+          className=""
+          color="primary"
+          style={style}
+          href="/events/new"
+        >
           <Add />
         </Fab>
       </React.Fragment>

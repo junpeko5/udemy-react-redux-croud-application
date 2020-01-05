@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Link } from "react-router-dom";
+import { Button, TextField, Container } from "@material-ui/core";
 
 import { getEvent, deleteEvent, putEvent } from "../actions";
 
@@ -25,8 +26,13 @@ class EventsShow extends Component {
     } = field;
     return (
       <div>
-        <input {...input} placeholder={label} type={type} />
-        {touched && error && <span>{error}</span>}
+        <TextField
+          {...input}
+          label={label}
+          type={type}
+          helperText={touched && error && <span>{error}</span>}
+          error={touched && error}
+        />
       </div>
     );
   }
@@ -45,33 +51,44 @@ class EventsShow extends Component {
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <Field
-            label="Title"
-            name="title"
-            type="text"
-            component={this.renderField}
-          />
-        </div>
-        <div>
-          <Field
-            label="Body"
-            name="body"
-            type="text"
-            component={this.renderField}
-          />
-        </div>
-        <div>
-          <input
-            type="submit"
-            value="Submit"
-            disabled={ pristine || submitting || invalid }
-          />
-          <Link to="/">Cancel</Link>
-          <Link to="/" onClick={this.onDeleteClick}>Delete</Link>
-        </div>
-      </form>
+      <Container maxWidth="sm">
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <div>
+            <Field
+              label="Title"
+              name="title"
+              type="text"
+              component={this.renderField}
+            />
+          </div>
+          <div>
+            <Field
+              label="Body"
+              name="body"
+              type="text"
+              component={this.renderField}
+            />
+          </div>
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={pristine || submitting || invalid}
+            >
+              送信
+            </Button>
+            <Button variant="contained" href="/" color="secondary">
+              キャンセル
+            </Button>
+            <Button variant="contained" href="/" color="secondary">
+              <Link to="/" onClick={this.onDeleteClick}>
+                Delete
+              </Link>
+            </Button>
+          </div>
+        </form>
+      </Container>
     );
   }
 }
